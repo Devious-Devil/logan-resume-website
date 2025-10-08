@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Logan Fowles — Home</title>
+  <meta name="description" content="Developer • Maker • Systems tinkerer. Projects, notes, and links to my self‑hosted services." />
+  <style>
+    :root{
+      --bg:#0b0f14;--panel:#121821;--muted:#7b8ca8;--text:#e6eefc;--accent:#5ec2f2;--accent-2:#b28cff;
+      --max:1100px;--radius:18px;--shadow:0 10px 30px rgba(0,0,0,.35)
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;background:linear-gradient(180deg,#0a0e13 0%,#0b1118 60%,#0a0e13 100%);color:var(--text);font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif}
+    a{color:var(--accent);text-decoration:none}
+    a:hover{text-decoration:underline}
+    header{position:sticky;top:0;backdrop-filter:saturate(140%) blur(8px);background:rgba(10,14,19,.6);border-bottom:1px solid rgba(255,255,255,.06);z-index:50}
+    .nav{max-width:var(--max);margin:auto;display:flex;align-items:center;justify-content:space-between;padding:14px 18px}
+    .brand{display:flex;gap:10px;align-items:center;font-weight:700;letter-spacing:.3px}
+    .brand .dot{width:10px;height:10px;border-radius:50%;background:conic-gradient(from 0deg,var(--accent),var(--accent-2));box-shadow:0 0 20px var(--accent)}
+    .links{display:flex;gap:18px}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid rgba(255,255,255,.08);border-radius:12px;background:rgba(255,255,255,.03)}
+    .btn:hover{background:rgba(255,255,255,.06)}
+
+    .hero{max-width:var(--max);margin:28px auto 0;padding:56px 18px 30px;display:grid;grid-template-columns:1.1fr .9fr;gap:26px;align-items:center}
+    .card{background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);box-shadow:var(--shadow)}
+    .hero .intro{padding:28px}
+    h1{font-size:clamp(28px,4.5vw,42px);line-height:1.08;margin:0 0 8px}
+    .muted{color:var(--muted)}
+    .tags{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 0}
+    .tag{font-size:12px;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08)}
+
+    .kpi{padding:22px 24px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .kpi .box{padding:18px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08)}
+    .kpi .n{font-size:22px;font-weight:700}
+
+    section{max-width:var(--max);margin:24px auto;padding:0 18px}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .tile{padding:18px;min-height:140px}
+    .tile h3{margin:0 0 6px}
+
+    .subgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+    .sub{padding:14px}
+
+    footer{max-width:var(--max);margin:40px auto 80px;padding:0 18px;color:var(--muted)}
+
+    /* scroll reveal */
+    [data-reveal]{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+    [data-reveal].show{opacity:1;transform:none}
+
+    @media (max-width:900px){
+      .hero{grid-template-columns:1fr}
+      .kpi{grid-template-columns:1fr 1fr}
+      .grid{grid-template-columns:1fr 1fr}
+      .subgrid{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width:560px){
+      .kpi{grid-template-columns:1fr}
+      .grid{grid-template-columns:1fr}
+      .subgrid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="nav">
+      <div class="brand"><span class="dot"></span> Logan Fowles</div>
+      <div class="links">
+        <a class="btn" href="/resume.html">Résumé</a>
+        <a class="btn" href="/projects.html">Projects</a>
+        <a class="btn" href="/status.html">Status</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="intro card" data-reveal>
+        <h1>Developer • Maker • Systems tinkerer</h1>
+        <p class="muted">I build self‑hosted stacks, media pipelines, and weirdly over‑engineered side projects. This site is the home base: projects, notes, and quick links to my services.</p>
+        <div class="tags">
+          <span class="tag">Docker</span>
+          <span class="tag">Unraid</span>
+          <span class="tag">Cloudflare</span>
+          <span class="tag">Java & Python</span>
+          <span class="tag">3D Printing</span>
+        </div>
+      </div>
+      <div class="card kpi" aria-label="Quick stats" data-reveal>
+        <div class="box"><div class="n" id="projCount">—</div><div class="muted">Projects</div></div>
+        <div class="box"><div class="n" id="lastUpdate">—</div><div class="muted">Last update</div></div>
+        <div class="box"><div class="n" id="uptime">—</div><div class="muted">Avg uptime</div></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Featured projects</h2>
+      <div class="grid">
+        <article class="card tile" data-reveal>
+          <h3><a href="/autoripper.html">Automatic Ripping Machine (ARM) + QSV</a></h3>
+          <p class="muted">Custom Docker image, HandBrake from source, Intel Arc A380 QSV experiments.</p>
+        </article>
+        <article class="card tile" data-reveal>
+          <h3><a href="/magicmirror.html">MagicMirror Dashboard</a></h3>
+          <p class="muted">Raspberry Pi 5 touchscreen hub with Spotify, home controls, commute tiles.</p>
+        </article>
+        <article class="card tile" data-reveal>
+          <h3><a href="/immich-notes.html">Immich at Home</a></h3>
+          <p class="muted">Family photo backups, SSO, and sharing flows without giving up ownership.</p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <h2>My services</h2>
+      <div class="subgrid">
+        <a class="card sub" data-reveal href="https://jellyfin.your-domain.tld" rel="noopener">Jellyfin</a>
+        <a class="card sub" data-reveal href="https://photos.your-domain.tld" rel="noopener">Immich</a>
+        <a class="card sub" data-reveal href="https://arm.your-domain.tld" rel="noopener">ARM GUI</a>
+        <a class="card sub" data-reveal href="https://printer.your-domain.tld" rel="noopener">3D Printer</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© <span id="year"></span> Logan Fowles · <a href="https://github.com/your-github">GitHub</a></p>
+  </footer>
+
+  <script>
+    // tiny demo logic to show how JS hooks into the page
+    const $ = s => document.querySelector(s);
+    $('#year').textContent = new Date().getFullYear();
+
+    // fake data to simulate later APIs (you'll swap these with real fetches)
+    const demo = {
+      projects: 3,
+      lastUpdate: new Date().toISOString().slice(0,10),
+      uptime: '99.9%'
+    };
+    $('#projCount').textContent = demo.projects;
+    $('#lastUpdate').textContent = demo.lastUpdate;
+    $('#uptime').textContent = demo.uptime;
+
+    // simple scroll-reveal using IntersectionObserver
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('show'); });
+    },{threshold:.12});
+    document.querySelectorAll('[data-reveal]').forEach(el=>io.observe(el));
+  </script>
+</body>
+</html>
