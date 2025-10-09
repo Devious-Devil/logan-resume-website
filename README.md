@@ -1,2 +1,2 @@
-# Logan-website
-Will run the main website
+# logan-resume-website
+This will run the main website and be a testing website
