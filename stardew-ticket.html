@@ -38,8 +38,7 @@
       font-family: "Nunito", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
       color: var(--text-main);
       overflow-x: hidden;
-      background:
-        linear-gradient(to bottom, var(--sky-top), var(--sky-bottom));
+      background: linear-gradient(to bottom, var(--sky-top), var(--sky-bottom));
       display: flex;
       justify-content: center;
       align-items: center;
@@ -177,7 +176,6 @@
       border-radius: 12px;
       border: 3px solid #5a3717;
       box-shadow: inset 0 0 0 2px rgba(255,255,255,0.04);
-      transform: translateY(0);
     }
 
     .board::before,
@@ -204,7 +202,7 @@
       text-shadow: 0 2px 3px rgba(0,0,0,0.9);
     }
 
-    /* Ticket flip card using your images */
+    /* Ticket flip card with your images */
     .ticket-wrapper {
       perspective: 1800px;
       width: min(720px, 100%);
@@ -214,7 +212,7 @@
     .ticket-card {
       position: relative;
       width: 100%;
-      aspect-ratio: 612 / 198; /* matches your PDF ticket layout */
+      aspect-ratio: 612 / 198;
       transform-style: preserve-3d;
       transition: transform var(--transition-fast);
       cursor: pointer;
@@ -249,30 +247,6 @@
       transform: rotateY(180deg);
     }
 
-    .ticket-card::before,
-    .ticket-card::after {
-      content: "";
-      position: absolute;
-      width: 46px;
-      height: 46px;
-      border: 3px solid rgba(0,0,0,0.6);
-      border-radius: 6px;
-      opacity: 0.18;
-      pointer-events: none;
-    }
-    .ticket-card::before {
-      top: 6px;
-      left: 6px;
-      border-right: none;
-      border-bottom: none;
-    }
-    .ticket-card::after {
-      bottom: 6px;
-      right: 6px;
-      border-left: none;
-      border-top: none;
-    }
-
     .flip-caption {
       margin-top: 6px;
       font-size: 9px;
@@ -292,7 +266,6 @@
       border-radius: 14px;
       border: 2px solid rgba(0,0,0,0.8);
       box-shadow: 0 12px 26px rgba(0,0,0,0.95);
-      transform: translateY(0);
     }
 
     .menu-title {
@@ -308,7 +281,6 @@
     .menu-btn {
       display: inline-flex;
       align-items: center;
-      justify-content: flex-start;
       gap: 6px;
       padding: 8px 16px;
       min-width: 150px;
@@ -452,15 +424,13 @@
       <span>Open Back</span>
     </a>
 
-    <!-- Update this href to your real home URL if needed -->
-    <a class="menu-btn" href="/" >
+    <a class="menu-btn" href="/">
       <span class="dot"></span>
       <span>Back to Site</span>
     </a>
 
     <div class="menu-note">
-      This page is just a fun display for your real ticket.
-      Not affiliated with or endorsed by ConcernedApe.
+      This page is just a fun display for your real ticket. Not affiliated with or endorsed by ConcernedApe.
     </div>
   </div>
 </div>
