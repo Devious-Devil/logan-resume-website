@@ -5,146 +5,220 @@
   <title>Stardew Valley Symphony Ticket</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Cozy / retro vibes -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg-top: #151f33;
-      --bg-bottom: #050814;
+      --sky-top: #73c9ff;
+      --sky-bottom: #f5d999;
+      --hill-green: #4ca64c;
       --accent-gold: #f1c76a;
-      --accent-blue: #7fd4ff;
+      --accent-brown: #8b5a2b;
+      --accent-brown-dark: #5a3717;
+      --accent-blue: #2f6fda;
       --accent-pink: #ff9ad5;
-      --accent-green: #8fe28f;
-      --text-main: #f7f4e9;
-      --text-soft: #c9d4e6;
+      --text-main: #fdf7e3;
+      --text-soft: #f4e4bf;
       --radius: 18px;
-      --shadow-soft: 0 18px 40px rgba(0,0,0,0.65);
+      --shadow-soft: 0 18px 40px rgba(0,0,0,0.6);
       --transition-fast: 0.3s ease-out;
     }
 
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
     }
 
     body {
       min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 32px 16px;
-      background:
-        radial-gradient(circle at top, rgba(255,255,255,0.06) 0, transparent 55%),
-        linear-gradient(to bottom, var(--bg-top), var(--bg-bottom));
       font-family: "Nunito", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
       color: var(--text-main);
       overflow-x: hidden;
-    }
-
-    .stars {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background-image:
-        radial-gradient(circle, rgba(255,255,255,0.25) 1px, transparent 1px),
-        radial-gradient(circle, rgba(255,255,255,0.14) 1px, transparent 1px);
-      background-size: 160px 160px, 260px 260px;
-      background-position: 0 0, 80px 40px;
-      opacity: 0.16;
-      mix-blend-mode: screen;
-      z-index: -1;
-    }
-
-    .page-wrap {
-      max-width: 980px;
-      width: 100%;
-      text-align: center;
+      background:
+        linear-gradient(to bottom, var(--sky-top), var(--sky-bottom));
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px 12px;
       position: relative;
     }
 
-    .title-pill {
+    /* Pixel clouds */
+    .cloud {
+      position: fixed;
+      background: #ffffff;
+      opacity: 0.92;
+      box-shadow:
+        16px 6px 0 rgba(0,0,0,0.06),
+        -10px 8px 0 rgba(0,0,0,0.04);
+      border-radius: 8px;
+      z-index: 0;
+    }
+    .cloud.c1 { width: 80px; height: 26px; top: 40px; left: 12%; }
+    .cloud.c2 { width: 120px; height: 30px; top: 80px; right: 10%; }
+    .cloud.c3 { width: 70px; height: 22px; top: 130px; left: 28%; }
+
+    /* Hills */
+    .hills {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 130px;
+      background:
+        radial-gradient(circle at 15% 0%, rgba(0,0,0,0.15), transparent 60%),
+        radial-gradient(circle at 70% 0%, rgba(0,0,0,0.18), transparent 65%),
+        var(--hill-green);
+      clip-path: polygon(0 40%, 15% 20%, 30% 45%, 45% 25%, 60% 45%, 75% 18%, 90% 40%, 100% 30%, 100% 100%, 0 100%);
+      z-index: 0;
+    }
+
+    .page-wrap {
+      position: relative;
+      max-width: 1100px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: minmax(0, 1.8fr) auto;
+      gap: 26px;
+      align-items: center;
+      z-index: 5;
+    }
+
+    /* Stardew-style title */
+    .title-block {
+      text-align: left;
+      margin-bottom: 8px;
+    }
+
+    .game-label {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
-      padding: 8px 16px;
-      background: rgba(5, 10, 20, 0.96);
+      gap: 8px;
+      padding: 6px 14px;
+      background: rgba(0,0,0,0.35);
       border-radius: 999px;
-      border: 1px solid rgba(241,199,106,0.7);
-      box-shadow: 0 6px 14px rgba(0,0,0,0.7);
-      margin-bottom: 12px;
+      border: 1px solid rgba(0,0,0,0.7);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.7);
       font-family: "Press Start 2P", system-ui, sans-serif;
-      font-size: 9px;
-      letter-spacing: 0.12em;
+      font-size: 8px;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--accent-gold);
     }
 
-    .title-pill span.pixel {
+    .game-label span.pixel {
       width: 7px;
       height: 7px;
       background: var(--accent-gold);
       box-shadow:
-        10px 0 0 var(--accent-blue),
-        20px 0 0 var(--accent-pink),
-        30px 0 0 var(--accent-green);
+        9px 0 0 var(--accent-brown),
+        18px 0 0 var(--accent-blue),
+        27px 0 0 var(--accent-pink);
     }
 
     h1 {
       font-family: "Press Start 2P", system-ui, sans-serif;
-      font-size: clamp(17px, 3vw, 24px);
-      line-height: 1.4;
-      text-transform: uppercase;
+      font-size: clamp(18px, 3.1vw, 26px);
       letter-spacing: 0.16em;
-      color: var(--accent-gold);
-      text-shadow: 0 3px 0 #000;
-      margin-bottom: 6px;
+      text-transform: uppercase;
+      color: #ffeb9a;
+      text-shadow:
+        0 3px 0 #8b5a2b,
+        0 5px 14px rgba(0,0,0,0.9);
+      margin: 10px 0 4px;
     }
 
     .subtitle {
-      font-size: 14px;
+      font-size: 13px;
       color: var(--text-soft);
-      margin-bottom: 20px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.9);
+      max-width: 520px;
     }
 
     .hint {
-      font-size: 11px;
-      color: var(--accent-blue);
-      margin-bottom: 14px;
-      opacity: 0.9;
+      font-size: 10px;
+      color: #fff6cf;
+      margin-top: 6px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.85);
     }
 
-    .ticket-area {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 16px;
+    .hint span {
+      color: #ffe08a;
+      font-weight: 600;
     }
 
-    .flip-note {
-      font-size: 9px;
-      color: var(--accent-pink);
+    /* Wooden signboard container */
+    .board-wrap {
+      margin-top: 14px;
+      padding: 10px;
+      display: inline-block;
+      background: rgba(0,0,0,0.25);
+      border-radius: 14px;
+      box-shadow: 0 10px 26px rgba(0,0,0,0.85);
+    }
+
+    .board {
+      position: relative;
+      padding: 16px 16px 12px;
+      background: linear-gradient(
+        to bottom,
+        #b57a38,
+        #9b652a 26%,
+        #c48842 27%,
+        #a16429 52%,
+        #c78a46 53%,
+        #905522 78%,
+        #c5863f 79%
+      );
+      border-radius: 12px;
+      border: 3px solid #5a3717;
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,0.04);
+      transform: translateY(0);
+    }
+
+    .board::before,
+    .board::after {
+      content: "";
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      background: #5a3717;
+      border-radius: 50%;
+      top: 6px;
+      box-shadow: 0 2px 3px rgba(0,0,0,0.7);
+    }
+    .board::before { left: 14px; }
+    .board::after { right: 14px; }
+
+    .board-label {
+      font-family: "Press Start 2P", system-ui, sans-serif;
+      font-size: 8px;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
-      letter-spacing: 0.14em;
+      color: #ffe9a6;
+      margin-bottom: 6px;
+      text-shadow: 0 2px 3px rgba(0,0,0,0.9);
     }
 
-    /* Flip card with your actual images */
+    /* Ticket flip card using your images */
     .ticket-wrapper {
       perspective: 1800px;
       width: min(720px, 100%);
+      margin: 0 auto;
     }
 
     .ticket-card {
       position: relative;
       width: 100%;
-      aspect-ratio: 612 / 198; /* matches your PDF tickets */
+      aspect-ratio: 612 / 198; /* matches your PDF ticket layout */
       transform-style: preserve-3d;
       transition: transform var(--transition-fast);
       cursor: pointer;
-      margin: 0 auto;
+      margin-top: 4px;
     }
 
     .ticket-card.is-flipped {
@@ -175,97 +249,232 @@
       transform: rotateY(180deg);
     }
 
-    /* Tiny pixel frame + hover effect */
     .ticket-card::before,
     .ticket-card::after {
       content: "";
       position: absolute;
-      width: 52px;
-      height: 52px;
-      border: 3px solid rgba(241,199,106,0.7);
+      width: 46px;
+      height: 46px;
+      border: 3px solid rgba(0,0,0,0.6);
+      border-radius: 6px;
       opacity: 0.18;
       pointer-events: none;
     }
-
     .ticket-card::before {
-      top: 8px;
-      left: 8px;
+      top: 6px;
+      left: 6px;
       border-right: none;
       border-bottom: none;
     }
-
     .ticket-card::after {
-      bottom: 8px;
-      right: 8px;
+      bottom: 6px;
+      right: 6px;
       border-left: none;
       border-top: none;
     }
 
-    .ticket-card:hover {
-      transform: translateY(-4px) scale(1.01);
-    }
-
-    .ticket-card.is-flipped:hover {
-      transform: rotateY(180deg) translateY(-4px) scale(1.01);
-    }
-
-    .bottom-note {
-      margin-top: 8px;
+    .flip-caption {
+      margin-top: 6px;
       font-size: 9px;
-      color: #9aa7c0;
+      color: #fff6cf;
+      text-align: center;
+      text-shadow: 0 2px 3px rgba(0,0,0,0.9);
     }
 
-    @media (max-width: 600px) {
-      .ticket-card {
-        aspect-ratio: 9 / 4;
+    /* Right-side Stardew style menu */
+    .menu {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 14px 10px 14px 14px;
+      background: rgba(0,0,0,0.4);
+      border-radius: 14px;
+      border: 2px solid rgba(0,0,0,0.8);
+      box-shadow: 0 12px 26px rgba(0,0,0,0.95);
+      transform: translateY(0);
+    }
+
+    .menu-title {
+      font-family: "Press Start 2P", system-ui, sans-serif;
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #ffe9a6;
+      margin-bottom: 4px;
+      text-shadow: 0 2px 3px rgba(0,0,0,0.9);
+    }
+
+    .menu-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 6px;
+      padding: 8px 16px;
+      min-width: 150px;
+      background: #c88b3a;
+      border-radius: 8px;
+      border: 2px solid #8b5a2b;
+      box-shadow:
+        0 3px 0 #5a3717,
+        0 5px 10px rgba(0,0,0,0.85);
+      font-family: "Press Start 2P", system-ui, sans-serif;
+      font-size: 8px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #fff7cf;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.12s ease-out;
+    }
+
+    .menu-btn span.dot {
+      width: 6px;
+      height: 6px;
+      background: #ffeb9a;
+      box-shadow:
+        6px 0 0 #ffe1a0,
+        12px 0 0 #ffd18b;
+    }
+
+    .menu-btn:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        0 5px 0 #5a3717,
+        0 10px 16px rgba(0,0,0,0.95);
+      background: #e29b3e;
+    }
+
+    .menu-btn:active {
+      transform: translateY(1px);
+      box-shadow:
+        0 2px 0 #5a3717,
+        0 6px 10px rgba(0,0,0,0.9);
+      background: #b6762e;
+    }
+
+    .menu-note {
+      font-size: 8px;
+      color: #ffe9b1;
+      margin-top: 2px;
+      max-width: 220px;
+      text-shadow: 0 2px 3px rgba(0,0,0,0.9);
+    }
+
+    @media (max-width: 800px) {
+      .page-wrap {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+      .menu {
+        align-items: center;
+      }
+      .menu-note {
+        text-align: center;
+      }
+      .title-block {
+        text-align: center;
+      }
+      .subtitle {
+        margin: 0 auto;
+        text-align: center;
+      }
+      .board-wrap {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
       }
     }
   </style>
 </head>
 <body>
-<div class="stars"></div>
+
+<div class="cloud c1"></div>
+<div class="cloud c2"></div>
+<div class="cloud c3"></div>
+<div class="hills"></div>
 
 <div class="page-wrap">
-  <div class="title-pill">
-    <span class="pixel"></span>
-    <span>Stardew Valley Symphony of Seasons</span>
-  </div>
+  <!-- LEFT: Title + wooden board + ticket -->
+  <div>
+    <div class="title-block">
+      <div class="game-label">
+        <span class="pixel"></span>
+        <span>Stardew Valley • Symphony of Seasons</span>
+      </div>
+      <h1>Your Ticket</h1>
+      <p class="subtitle">
+        A cozy in-world preview of your actual ticket for the Symphony of Seasons performance.
+      </p>
+      <p class="hint">
+        <span>Click</span> the ticket or use the menu to flip between front and back.
+      </p>
+    </div>
 
-  <h1>Your Ticket</h1>
-  <p class="subtitle">
-    A cozy preview of your real ticket, Stardew-style.
-  </p>
-  <p class="hint">
-    This displays the actual front &amp; back art you received.<br>
-    <span class="flip-note">Click or tap the ticket to flip it.</span>
-  </p>
-
-  <div class="ticket-area">
-    <div class="ticket-wrapper">
-      <div class="ticket-card" id="ticket-card">
-        <!-- FRONT IMAGE -->
-        <div class="ticket-side ticket-front">
-          <img src="las-front.png" alt="Stardew Valley Symphony Ticket - Front">
+    <div class="board-wrap">
+      <div class="board">
+        <div class="board-label">Ticket Display Board</div>
+        <div class="ticket-wrapper">
+          <div class="ticket-card" id="ticket-card">
+            <!-- FRONT -->
+            <div class="ticket-side ticket-front">
+              <img src="las-front.png" alt="Stardew Valley Symphony Ticket - Front">
+            </div>
+            <!-- BACK -->
+            <div class="ticket-side ticket-back">
+              <img src="las-back.png" alt="Stardew Valley Symphony Ticket - Back">
+            </div>
+          </div>
         </div>
-        <!-- BACK IMAGE -->
-        <div class="ticket-side ticket-back">
-          <img src="las-back.png" alt="Stardew Valley Symphony Ticket - Back">
+        <div class="flip-caption">
+          Now Loading: Pelican Town Orchestra ✦ Click to flip your ticket.
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="bottom-note">
-      Not an official Stardew Valley product. This page simply showcases your legitimate ticket
-      in a fun, in-world themed presentation.
+  <!-- RIGHT: Stardew-style menu -->
+  <div class="menu">
+    <div class="menu-title">Main Menu</div>
+
+    <button class="menu-btn" id="flip-btn" type="button">
+      <span class="dot"></span>
+      <span>Flip Ticket</span>
+    </button>
+
+    <a class="menu-btn" href="las-front.png" target="_blank">
+      <span class="dot"></span>
+      <span>Open Front</span>
+    </a>
+
+    <a class="menu-btn" href="las-back.png" target="_blank">
+      <span class="dot"></span>
+      <span>Open Back</span>
+    </a>
+
+    <!-- Update this href to your real home URL if needed -->
+    <a class="menu-btn" href="/" >
+      <span class="dot"></span>
+      <span>Back to Site</span>
+    </a>
+
+    <div class="menu-note">
+      This page is just a fun display for your real ticket.
+      Not affiliated with or endorsed by ConcernedApe.
     </div>
   </div>
 </div>
 
 <script>
   const card = document.getElementById('ticket-card');
-  card.addEventListener('click', () => {
+  const flipBtn = document.getElementById('flip-btn');
+
+  function flipTicket() {
     card.classList.toggle('is-flipped');
-  });
+  }
+
+  card.addEventListener('click', flipTicket);
+  flipBtn.addEventListener('click', flipTicket);
 </script>
 
 </body>
