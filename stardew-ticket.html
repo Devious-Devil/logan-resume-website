@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Stardew Valley Symphony of Seasons Ticket</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Optional: Pixel / retro vibes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #0b1725;
+      --bg-mid: #16263a;
+      --accent-gold: #f1c76a;
+      --accent-blue: #7fd4ff;
+      --accent-pink: #ff9ad5;
+      --accent-green: #8fe28f;
+      --ticket-bg: #1f3047;
+      --ticket-border: #f1c76a;
+      --text-main: #f7f4e9;
+      --text-soft: #c9d4e6;
+      --pixel: 6px;
+      --radius: 18px;
+      --shadow-soft: 0 18px 40px rgba(0,0,0,0.55);
+      --transition-fast: 0.28s ease-out;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 32px 16px;
+      background:
+        radial-gradient(circle at top, rgba(255,255,255,0.08) 0, transparent 55%),
+        linear-gradient(to bottom, #151f33, #050814 80%);
+      font-family: "Nunito", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text-main);
+      overflow-x: hidden;
+    }
+
+    .stars {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        radial-gradient(circle, rgba(255,255,255,0.25) 1px, transparent 1px),
+        radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px);
+      background-size: 160px 160px, 260px 260px;
+      background-position: 0 0, 80px 40px;
+      opacity: 0.18;
+      mix-blend-mode: screen;
+      z-index: -1;
+    }
+
+    .page-wrap {
+      max-width: 960px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+    }
+
+    .title-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 16px;
+      background: rgba(10, 18, 30, 0.95);
+      border-radius: 999px;
+      border: 1px solid rgba(241,199,106,0.6);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.6);
+      margin-bottom: 12px;
+      font-family: "Press Start 2P", system-ui, sans-serif;
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-gold);
+    }
+
+    .title-pill span.pixel {
+      width: 7px;
+      height: 7px;
+      background: var(--accent-gold);
+      box-shadow:
+        10px 0 0 var(--accent-blue),
+        20px 0 0 var(--accent-pink),
+        30px 0 0 var(--accent-green);
+    }
+
+    h1 {
+      font-family: "Press Start 2P", system-ui, sans-serif;
+      font-size: clamp(18px, 3vw, 26px);
+      line-height: 1.5;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--accent-gold);
+      text-shadow: 0 3px 0 #000;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: var(--text-soft);
+      margin-bottom: 26px;
+    }
+
+    .ticket-hint {
+      font-size: 11px;
+      color: var(--accent-blue);
+      margin-bottom: 12px;
+      opacity: 0.9;
+    }
+
+    .ticket-hint strong {
+      color: var(--accent-pink);
+      font-weight: 600;
+    }
+
+    .ticket-scene {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+    }
+
+    /* Ticket flip card */
+    .ticket-wrapper {
+      perspective: 1800px;
+      width: min(620px, 100%);
+    }
+
+    .ticket {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 7;
+      transform-style: preserve-3d;
+      transition: transform var(--transition-fast);
+      cursor: pointer;
+      margin: 0 auto;
+    }
+
+    .ticket.is-flipped {
+      transform: rotateY(180deg);
+    }
+
+    .ticket-side {
+      position: absolute;
+      inset: 0;
+      padding: 18px 22px;
+      border-radius: var(--radius);
+      background: radial-gradient(circle at top left, rgba(255,255,255,0.06), transparent),
+                  radial-gradient(circle at bottom right, rgba(255,255,255,0.02), transparent),
+                  var(--ticket-bg);
+      border: 3px solid var(--ticket-border);
+      box-shadow: var(--shadow-soft);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      backface-visibility: hidden;
+      overflow: hidden;
+    }
+
+    /* Pixel frame corners */
+    .ticket-side::before,
+    .ticket-side::after {
+      content: "";
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      border: var(--pixel) solid var(--accent-gold);
+      border-radius: 0;
+      box-shadow:
+        8px 8px 0 rgba(0,0,0,0.5),
+        -4px 12px 0 rgba(0,0,0,0.25);
+      opacity: 0.18;
+      pointer-events: none;
+    }
+
+    .ticket-side::before {
+      top: 10px;
+      left: 10px;
+      border-right: none;
+      border-bottom: none;
+    }
+
+    .ticket-side::after {
+      bottom: 10px;
+      right: 10px;
+      border-left: none;
+      border-top: none;
+    }
+
+    /* FRONT */
+    .ticket-front-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 18px;
+      font-family: "Press Start 2P", system-ui, sans-serif;
+      font-size: 8px;
+      letter-spacing: 0.12em;
+    }
+
+    .ticket-front-header-left {
+      text-align: left;
+    }
+
+    .ticket-front-header-left .label {
+      color: var(--accent-blue);
+      margin-bottom: 3px;
+    }
+
+    .ticket-front-header-right {
+      text-align: right;
+      color: var(--accent-gold);
+    }
+
+    .ticket-main-title {
+      margin-top: 10px;
+      text-align: left;
+    }
+
+    .ticket-main-title .sv {
+      font-size: 18px;
+      letter-spacing: 0.18em;
+      color: var(--accent-gold);
+      text-shadow: 0 3px 0 #000;
+      text-transform: uppercase;
+    }
+
+    .ticket-main-title .soseasons {
+      font-size: 9px;
+      letter-spacing: 0.28em;
+      color: var(--accent-pink);
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    .ticket-main-sub {
+      margin-top: 4px;
+      font-size: 9px;
+      color: var(--accent-blue);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+    }
+
+    .ticket-front-body {
+      margin-top: 12px;
+      display: grid;
+      grid-template-columns: 3fr 1.4fr;
+      gap: 14px;
+      align-items: flex-end;
+      font-size: 10px;
+      color: var(--text-soft);
+    }
+
+    .season-line {
+      font-size: 10px;
+      line-height: 1.5;
+    }
+
+    .season-line span {
+      color: var(--accent-green);
+      font-weight: 600;
+    }
+
+    .ticket-code-block {
+      align-self: stretch;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-left: 1px dashed rgba(241,199,106,0.5);
+      padding-left: 10px;
+      gap: 6px;
+    }
+
+    .mini-label {
+      font-size: 7px;
+      color: var(--accent-blue);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .big-code {
+      font-family: "Press Start 2P", system-ui, sans-serif;
+      font-size: 11px;
+      color: var(--accent-gold);
+      letter-spacing: 0.2em;
+    }
+
+    .admit-one {
+      font-family: "Press Start 2P";
+      font-size: 7px;
+      letter-spacing: 0.18em;
+      color: var(--accent-pink);
+      text-transform: uppercase;
+    }
+
+    .ticket-front-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+      font-size: 9px;
+      color: var(--accent-blue);
+      margin-top: 4px;
+    }
+
+    .ticket-front-footer strong {
+      color: var(--accent-gold);
+      font-weight: 600;
+    }
+
+    /* BACK */
+    .ticket-back {
+      transform: rotateY(180deg);
+    }
+
+    .ticket-back-grid {
+      display: grid;
+      grid-template-columns: 2fr 1.6fr;
+      gap: 14px;
+      font-size: 9px;
+      color: var(--text-soft);
+      margin-top: 6px;
+    }
+
+    .ticket-back h3 {
+      font-family: "Press Start 2P", system-ui, sans-serif;
+      font-size: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--accent-gold);
+      margin-bottom: 4px;
+    }
+
+    .info-label {
+      font-size: 7px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--accent-blue);
+      margin-bottom: 2px;
+    }
+
+    .info-value {
+      font-size: 10px;
+      color: var(--accent-gold);
+      font-weight: 600;
+    }
+
+    .seat-box {
+      border: 1px solid rgba(241,199,106,0.5);
+      padding: 6px 8px;
+      border-radius: 10px;
+      display: grid;
+      grid-template-columns: repeat(2, auto);
+      column-gap: 10px;
+      row-gap: 3px;
+      align-items: center;
+      justify-content: flex-start;
+      font-size: 8px;
+      margin-top: 4px;
+    }
+
+    .pixel-divider {
+      margin: 8px 0 6px;
+      border-bottom: 2px dotted rgba(241,199,106,0.28);
+    }
+
+    .tiny-print {
+      font-size: 7px;
+      line-height: 1.6;
+      color: #9aa7c0;
+      text-align: left;
+    }
+
+    .admit-tag {
+      font-family: "Press Start 2P";
+      font-size: 7px;
+      color: var(--accent-pink);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      text-align: right;
+      margin-top: 2px;
+    }
+
+    /* Mobile */
+    @media (max-width: 600px) {
+      .ticket {
+        aspect-ratio: 9 / 13;
+      }
+      .ticket-front-body {
+        grid-template-columns: 1.8fr 1.4fr;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="stars"></div>
+
+<div class="page-wrap">
+  <div class="title-pill">
+    <span class="pixel"></span>
+    <span>Stardew Valley Symphony of Seasons</span>
+  </div>
+
+  <h1>Special Ticket Preview</h1>
+  <p class="subtitle">
+    A cozy, in-world style ticket inspired by Stardew Valley’s charm for your upcoming symphony night.
+  </p>
+
+  <p class="ticket-hint">
+    <strong>Click or tap the ticket</strong> to flip between the front and back.
+  </p>
+
+  <div class="ticket-scene">
+    <div class="ticket-wrapper">
+      <div class="ticket" id="stardew-ticket">
+        <!-- FRONT -->
+        <div class="ticket-side ticket-front">
+          <div>
+            <div class="ticket-front-header">
+              <div class="ticket-front-header-left">
+                <div class="label">GEORGE S. &amp; DOLORES ECCLES THEATER</div>
+                <div>Salt Lake City, UT</div>
+              </div>
+              <div class="ticket-front-header-right">
+                <div>ADMIT ONE</div>
+                <div>11-473</div>
+              </div>
+            </div>
+
+            <div class="ticket-main-title">
+              <div class="sv">STARDEW VALLEY</div>
+              <div class="soseasons">SYMPHONY OF SEASONS</div>
+              <div class="ticket-main-sub">A MUSICAL JOURNEY THROUGH SPRING • SUMMER • FALL • WINTER</div>
+            </div>
+
+            <div class="ticket-front-body">
+              <div>
+                <p class="season-line">
+                  Travel through all four seasons of <span>Pelican Town</span> with a live orchestral performance
+                  featuring themes from <span>Stardew Valley</span>.
+                </p>
+              </div>
+              <div class="ticket-code-block">
+                <div>
+                  <div class="mini-label">TICKET NO.</div>
+                  <div class="big-code">11-473</div>
+                </div>
+                <div class="admit-one">ADMIT ONE</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="ticket-front-footer">
+            <div>
+              <strong>January 27, 2025</strong> &mdash; 8:00 p.m.
+            </div>
+            <div>
+              Orchestra • Row VV • Seat 111 • <strong>FREE</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- BACK -->
+        <div class="ticket-side ticket-back">
+          <div class="ticket-back-grid">
+            <div>
+              <h3>Event Details</h3>
+              <div class="pixel-divider"></div>
+              <div class="info-label">Location</div>
+              <div class="info-value">George S. &amp; Dolores Eccles Theater</div>
+              <div>131 S Main St, Salt Lake City, UT</div>
+
+              <div style="margin-top:8px;">
+                <div class="info-label">Date &amp; Time</div>
+                <div class="info-value">January 27, 2025 &mdash; 8:00 p.m.</div>
+              </div>
+
+              <div style="margin-top:8px;">
+                <div class="info-label">Experience</div>
+                <div>
+                  Symphonic arrangements from Stardew Valley, spanning each in-game season,
+                  under a cozy pixel-sky atmosphere.
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h3>Your Seat</h3>
+              <div class="pixel-divider"></div>
+              <div class="seat-box">
+                <div class="info-label">Section</div><div class="info-value">Orchestra</div>
+                <div class="info-label">Row</div><div class="info-value">VV</div>
+                <div class="info-label">Seat</div><div class="info-value">111</div>
+                <div class="info-label">Price</div><div class="info-value">FREE</div>
+              </div>
+
+              <p class="tiny-print">
+                Please arrive early to find your seat, soak in the ambience, and maybe imagine
+                you’ve just finished watering your parsnips.
+              </p>
+
+              <div class="admit-tag">
+                ADMIT ONE &nbsp;•&nbsp; 11-473
+              </div>
+            </div>
+          </div>
+
+          <div class="tiny-print" style="margin-top:8px;">
+            This is a stylized digital showcase of your ticket for the Stardew Valley: Symphony of Seasons performance.
+            The design is inspired by cozy pixel aesthetics and is not an official Stardew Valley product.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const ticket = document.getElementById('stardew-ticket');
+  ticket.addEventListener('click', () => {
+    ticket.classList.toggle('is-flipped');
+  });
+</script>
+
+</body>
+</html>
